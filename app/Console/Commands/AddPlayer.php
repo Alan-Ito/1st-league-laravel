@@ -28,7 +28,6 @@ class AddPlayer extends Command
      */
     public function handle()
     {
-        $response = PlayerController::addPlayer();
-        Log::info($response);
+        PlayerController::addPlayer();
     }
 }

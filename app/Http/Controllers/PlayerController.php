@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Events\PlayerAddedEvent;
-
+use App\Helpers\EmojiHelper;
+use App\Helpers\PlayerHelper;
 
 class PlayerController extends Controller
 {
@@ -15,21 +16,15 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::all();
-        return response()->json($players);
+        $players = Player::orderBy('id', 'desc')->take(100)->get()->toArray();
+        return response()->json(data: $players);
     }
 
     static public function addPlayer(): void
     {
-        $faker = \Faker\Factory::create();
 
         // Add a player
-        $player = Player::create([
-            'name' => $faker->name,
-            'age' => $faker->numberBetween(18, 40),
-            'position' => $faker->randomElement(['Forward', 'Midfielder', 'Defender', 'Goalkeeper']),
-            'team' => $faker->company,
-        ]);
+        $player = Player::create(PlayerHelper::getRandomPlayer());
 
         // Broadcast that a player has been added
         broadcast(new PlayerAddedEvent($player));

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Generator as Faker;
+use App\Helpers\PlayerHelper;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Player>
@@ -17,11 +18,6 @@ class PlayerFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'name' => $this->faker->name,
-            'position' => $this->faker->randomElement(['Forward', 'Midfielder', 'Defender', 'Goalkeeper']),
-            'team' => $this->faker->company,
-            'age' => $this->faker->numberBetween(18, 40),
-        ];
+        return PlayerHelper::getRandomPlayer();
     }
 }
