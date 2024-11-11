@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-class PlayerHelper
+class TeamHelper
 {
-    public static function getRandomPlayer()
+    public static function getRandomTeam()
     {
         $faker = \Faker\Factory::create(locale: 'ja_JP');
 
@@ -14,15 +14,13 @@ class PlayerHelper
         // フルネームからファーストネームを取得
         $fullName = $faker->name;
         $nameParts = explode(' ', $fullName);
-        $firstName = end($nameParts);
+        $familyName = $nameParts[0];
 
 
-        $player = [
-            'name' => $randomEmoji1 . ' ' . $firstName . ' ' . $randomEmoji2,
-            'age' => $faker->numberBetween(int1: 18, int2: 40),
-            'position' => $faker->randomElement(['Forward', 'Midfielder', 'Defender']),
+        $team = [
+            'name' => EmojiHelper::getRandomEmoji() . EmojiHelper::getRandomEmoji() . ' ' . $familyName . ' ' . EmojiHelper::getRandomEmoji() . EmojiHelper::getRandomEmoji(),
         ];
 
-        return $player;
+        return $team;
     }
 }

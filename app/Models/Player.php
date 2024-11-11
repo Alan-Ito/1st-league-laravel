@@ -13,6 +13,10 @@ class Player extends Model
         'name',
         'position',
         'age',
-        'team',
     ];
+
+    public function team()
+    {
+        return $this->belongsToMany(Team::class, 'r_team_player');
+    }
 }

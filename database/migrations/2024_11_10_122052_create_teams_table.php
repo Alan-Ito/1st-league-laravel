@@ -5,21 +5,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
+    public function up()
     {
-        Schema::dropIfExists('players');
-
-        Schema::create('players', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('age');
-            $table->string('position');
             $table->timestamps();
         });
     }
 
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('teams');
     }
 };
