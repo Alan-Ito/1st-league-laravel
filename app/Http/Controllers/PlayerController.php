@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Events\PlayerAddedEvent;
-use App\Helpers\EmojiHelper;
 use App\Helpers\PlayerHelper;
 
 class PlayerController extends Controller

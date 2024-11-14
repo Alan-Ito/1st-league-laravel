@@ -1,11 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Helpers\PlayerHelper;
 use App\Helpers\TeamHelper;
+use App\Helpers\MatchHelper;
 use App\Models\Player;
 use App\Models\Team;
-use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -30,24 +29,35 @@ class TeamController extends Controller
     }
 
     // チームIDに基づいてチームと選手を取得
-    public function get($id)
+    public function get()
     {
-        $team = Team::find($id);
-
-        if (!$team) {
-            return response()->json(['message' => 'Team not found'], 404);
+        // パラメータからチームIDを取得
+        $id = request()->input('team_id');
+        $response = TeamHelper::getTeamById($id);
+        if (isset($response['message'])) {
+            return response()->json(['message' => $response['message']], 404);
         }
+        return response()->json(data: $response);
+    }
 
-        // チームIDに基づいて選手を取得
-        $players = DB::table('players')
-            ->join('r_team_player', 'players.id', '=', 'r_team_player.player_id')
-            ->where('r_team_player.team_id', $id)
-            ->select('players.*')
-            ->get();
+    public function getAll()
+    {
+        $teams = Team::all();
 
-        return response()->json(data: [
-            'team' => $team,
-            'players' => $players
-        ]);
+        return response()->json(data: $teams);
+    }
+
+    public function getRandomCommentary()
+    {
+        $two_teams = TeamHelper::findTwoTeamsRandomly();
+        if (array_key_exists('message', $two_teams)) {
+            return response()->json(['message' => $two_teams['message']], 404);
+        }
+        $team1_id = $two_teams[0]->id;
+        $team2_id = $two_teams[1]->id;
+
+        $commentary = MatchHelper::generateDetailedMatchCommentary($team1_id, $team2_id);
+
+        return response()->json(data: $commentary);
     }
 }

@@ -12,4 +12,7 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/players', [PlayerController::class, 'index']);
 
-Route::get('/teams/{id}', [TeamController::class, 'get']);
+Route::get('/team', action: [TeamController::class, 'get']);
+Route::get('/teams', action: [TeamController::class, 'getAll']);
+
+Route::get('/commentary', action: [TeamController::class, 'getRandomCommentary']);

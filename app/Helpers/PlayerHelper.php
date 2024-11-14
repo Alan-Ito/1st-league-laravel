@@ -8,8 +8,8 @@ class PlayerHelper
     {
         $faker = \Faker\Factory::create(locale: 'ja_JP');
 
-        $randomEmoji1 = EmojiHelper::getRandomEmoji();
-        $randomEmoji2 = EmojiHelper::getRandomEmoji();
+        $randomEmoji1 = RandomHelper::getRandomEmoji();
+        $randomEmoji2 = RandomHelper::getRandomEmoji();
 
         // フルネームからファーストネームを取得
         $fullName = $faker->name;
